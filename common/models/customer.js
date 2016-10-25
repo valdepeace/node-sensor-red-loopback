@@ -80,6 +80,7 @@ module.exports = function (Customer) {
 
     Customer.usersNodeRed = function(ctx,credential,cb) {
             //loggin (info,error)
+        if (ctx){
             Customer.app.models.Customer.find({where:{email:credential.email}}, function(err, user) {
                 if(err){
                     ctx.status(500).send(err);
@@ -97,6 +98,25 @@ module.exports = function (Customer) {
                     }
                 }
             });
+        }else{
+            Customer.app.models.Customer.find({where:{email:credential.email}}, function(err, user) {
+                if(err){
+                    cb(err);
+                }else{
+                    if(user.length>0){
+                        if(credential.password===user[0].__data.password){
+                            cb(user[0])
+                        }else{
+                            bcrypt.compare(credential.password,user[0].__data.password,function(err,isMatch){
+                                (isMatch)?cb(user[0]):cb({error:"password failed"});
+                            })
+                        }
+                    }else{
+                        cb({error:"not found user"})
+                    }
+                }
+            });
+        }
     }
 
     Customer.getProjectsCustomers = function(ctx,token,cb) {
