@@ -1,0 +1,154 @@
+{
+  "name": "Customer",
+  "plural": "Customers",
+  "base": "User",
+  "properties": {},
+  "validations": [],
+    "scope":{
+      "include":{
+          "relation":"roles",
+          "scope":{
+              "fields":{
+                "name":true
+              }
+          }
+      }
+    },
+  "relations": {
+      "accessTokens": {
+          "type": "hasMany",
+          "model": "AccessToken",
+          "foreignKey": "customerId",
+          "options": {
+              "disableInclude": true
+          }
+      },
+      "roles": {
+          "type": "hasMany",
+          "model": "Role",
+          "foreignKey": "principalId",
+          "through": "RoleMapping"
+      },
+      "projects":{
+          "type": "hasAndBelongsToMany",
+          "model": "Project"
+      }
+  },
+  "acls": [
+      {
+          "principalType": "ROLE",
+          "principalId": "$everyone",
+          "permission": "ALLOW"
+      },
+      {
+          "principalType": "ROLE",
+          "principalId": "admin",
+          "permission": "ALLOW"
+      },
+      {
+          "principalType": "ROLE",
+          "principalId": "$everyone",
+          "permission": "ALLOW",
+          "property": "create"
+      },
+      {
+          "principalType": "ROLE",
+          "principalId": "$owner",
+          "permission": "ALLOW",
+          "property": "deleteById"
+      },
+      {
+          "principalType": "ROLE",
+          "principalId": "$everyone",
+          "permission": "ALLOW",
+          "property": "login"
+      },
+      {
+          "principalType": "ROLE",
+          "principalId": "$everyone",
+          "permission": "ALLOW",
+          "property": "logout"
+      },
+      {
+          "principalType": "ROLE",
+          "principalId": "$owner",
+          "permission": "ALLOW",
+          "property": "findById"
+      },
+      {
+          "principalType": "ROLE",
+          "principalId": "$owner",
+          "permission": "$everyone",
+          "property": "patchAttributes"
+      },
+      {
+          "principalType": "ROLE",
+          "principalId": "$owner",
+          "permission": "ALLOW",
+          "property": "replaceById"
+      },
+      {
+          "principalType": "ROLE",
+          "principalId": "$everyone",
+          "permission": "ALLOW",
+          "property": "confirm"
+      },
+      {
+          "principalType": "ROLE",
+          "principalId": "$everyone",
+          "permission": "ALLOW",
+          "property": "resetPassword",
+          "accessType": "EXECUTE"
+      },
+      {
+          "principalType": "ROLE",
+          "principalId": "$everyone",
+          "permission": "ALLOW",
+          "property": "current",
+          "accessType": "EXECUTE"
+      },
+      {
+          "principalType": "ROLE",
+          "principalId": "$everyone",
+          "permission": "ALLOW",
+          "property": "usersNodeRed",
+          "accessType": "EXECUTE"
+      },
+      {
+          "principalType": "ROLE",
+          "principalId": "$everyone",
+          "permission": "ALLOW",
+          "property": "getProjectsCustomers",
+          "accessType": "EXECUTE"
+      },
+      {
+          "principalType": "ROLE",
+          "principalId": "$everyone",
+          "permission": "ALLOW",
+          "property": "getTokenEditor",
+          "accessType": "EXECUTE"
+      },
+      {
+          "principalType": "ROLE",
+          "principalId": "$everyone",
+          "permission": "ALLOW",
+          "property": "__link__projects",
+          "accessType": "EXECUTE"
+      },
+      {
+          "principalType": "ROLE",
+          "principalId": "$everyone",
+          "permission": "ALLOW",
+          "property": "__unlink__projects",
+          "accessType": "EXECUTE"
+      },
+      {
+          "principalType": "ROLE",
+          "principalId": "$everyone",
+          "permission": "ALLOW",
+          "property": "__get__projects",
+          "accessType": "EXECUTE"
+      }
+  ],
+  "methods": {}
+}

@@ -1,0 +1,41 @@
+{
+    "name": "DeviceType",
+    "plural": "DeviceTypes",
+    "base": "PersistedModel",
+    "idInjection": true,
+    "options": {
+        "validateUpsert": true
+    },
+    "properties": {
+        "code": {
+            "type": "string",
+            "required": true,
+            "comments": "Device Type code"
+        },
+        "tag": {
+            "type": "string",
+            "required": true,
+            "comments": "Device Type tag"
+        },
+        "description": {
+            "type": "string",
+            "required": false,
+            "comments": "Device Type description"
+        },
+        "unit": {
+            "type": "string",
+            "required": true,
+            "comments": "Device Type unit"
+        }
+    },
+    "validations": [],
+    "relations": {
+        "deviceGroup": {
+            "type": "belongsTo",
+            "model": "DeviceGroup",
+            "foreignKey": "deviceGroupId"
+        }
+    },
+    "acls": [],
+    "methods": {}
+}

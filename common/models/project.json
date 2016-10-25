@@ -1,0 +1,65 @@
+{
+  "name": "Project",
+  "plural": "Projects",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "code": {
+      "type": "string",
+      "required": true,
+      "comments": "Project code name"
+    },
+    "description": {
+      "type": "string",
+      "required": false,
+      "comments": "Project description"
+    },
+    "installationDate": {
+      "type": "date",
+      "required": true,
+      "comments": "Project installation date"
+    },
+    "collectionDate": {
+      "type": "date",
+      "required": true,
+      "comments": "Project collection date"
+    },
+    "comment": {
+      "type": "string",
+      "required": false,
+      "comments": "Project comments"
+    },
+    "longitude": {
+      "type": "number",
+      "required": true,
+      "comments": "Project longitude geoposition"
+    },
+    "latitude": {
+      "type": "number",
+      "required": true,
+      "comments": "Project latitude geoposition"
+    },
+    "active": {
+      "type": "boolean",
+      "required": true,
+      "comments": "Project status"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "customers":{
+      "type": "hasAndBelongsToMany",
+      "model": "Customer"
+    },
+    "hubs": {
+      "type": "hasMany",
+      "model": "Hub",
+      "foreignKey": "projectId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

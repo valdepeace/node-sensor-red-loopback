@@ -1,0 +1,76 @@
+{
+  "name": "Device",
+  "plural": "Devices",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "code": {
+      "type": "string",
+      "required": true,
+      "comments": "Device code"
+    },
+    "alias": {
+      "type": "string",
+      "required": false,
+      "comments": "Device alias"
+    },
+    "description": {
+      "type": "string",
+      "required": false,
+      "comments": "Device description"
+    },
+    "comment": {
+      "type": "string",
+      "required": false,
+      "comments": "Device comment"
+    },
+    "vendor": {
+      "type": "string",
+      "required": true,
+      "comments": "Device vendor"
+    },
+    "model": {
+      "type": "string",
+      "required": true,
+      "comments": "Device model"
+    },
+    "calibration": {
+      "type": "number",
+      "required": false,
+      "comments": "Device calibration"
+    },
+    "decimals": {
+      "type": "number",
+      "required": false,
+      "comments": "Device decimals calibration"
+    },
+    "photo": {
+      "type": "string",
+      "required": false,
+      "comments": "Device photo"
+    },
+    "active": {
+      "type": "boolean",
+      "required": true,
+      "comments": "Device status"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "deviceType": {
+      "type": "belongsTo",
+      "model": "DeviceType",
+      "foreignKey": "deviceTypeId"
+    },
+    "messages": {
+      "type": "hasMany",
+      "model": "Message",
+      "foreignKey": "deviceId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

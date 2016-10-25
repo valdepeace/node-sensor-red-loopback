@@ -1,0 +1,61 @@
+{
+    "_meta": {
+        "sources": [
+            "loopback/common/models",
+            "loopback/server/models",
+            "../common/models",
+            "./models"
+        ],
+        "mixins": [
+            "loopback/common/mixins",
+            "loopback/server/mixins",
+            "../common/mixins",
+            "./mixins"
+        ]
+    },
+    "AccessToken": {
+        "dataSource": "nodesensor",
+        "public": true
+    },
+    "ACL": {
+        "dataSource": "nodesensor",
+        "public": false
+    },
+    "Customer": {
+        "dataSource": "nodesensor",
+        "public": true
+    },
+    "RoleMapping": {
+        "dataSource": "nodesensor",
+        "public": true
+    },
+    "Role": {
+        "dataSource": "nodesensor",
+        "public": true
+    },
+    "Project": {
+        "dataSource": "nodesensor",
+        "public": true
+    },
+    "Hub": {
+        "dataSource": "nodesensor",
+        "public": true
+    },
+    "Device": {
+        "dataSource": "nodesensor",
+        "public": true
+    },
+    "DeviceType": {
+        "dataSource": "nodesensor",
+        "public": true
+    },
+    "DeviceGroup": {
+        "dataSource": "nodesensor",
+        "public": true
+    },
+    "Message": {
+        "dataSource": "nodesensor",
+        "public": true
+    }
+}
+

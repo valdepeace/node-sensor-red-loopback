@@ -1,0 +1,89 @@
+{
+  "name": "Hub",
+  "plural": "Hubs",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "code": {
+      "type": "string",
+      "required": true,
+      "comments": "Hub code name"
+    },
+    "description": {
+      "type": "string",
+      "required": true,
+      "comments": "Hub description"
+    },
+    "vendor": {
+      "type": "string",
+      "required": true,
+      "comments": "Hub vendor"
+    },
+    "model": {
+      "type": "string",
+      "required": true,
+      "comments": "Hub model"
+    },
+    "ip": {
+      "type": "string",
+      "required": false,
+      "comments": "Hub IP number"
+    },
+    "mac": {
+      "type": "string",
+      "required": false,
+      "comments": "Hub MAC number"
+    },
+    "installationDate": {
+      "type": "date",
+      "required": true,
+      "comments": "Hub installation date"
+    },
+    "collectionDate": {
+      "type": "date",
+      "required": true,
+      "comments": "Hub collection date"
+    },
+    "comment": {
+      "type": "string",
+      "required": false,
+      "comments": "Hub comments"
+    },
+    "longitude": {
+      "type": "number",
+      "required": true,
+      "comments": "Hub longitude geoposition"
+    },
+    "latitude": {
+      "type": "number",
+      "required": true,
+      "comments": "Hub latitude geoposition"
+    },
+    "photo": {
+      "type": "string",
+      "required": false,
+      "comments": "Hub photo"
+    },
+    "active": {
+      "type": "boolean",
+      "required": true,
+      "comments": "Hub status"
+    },
+      "projectId":{
+          "type":"string"
+      }
+  },
+  "validations": [],
+  "relations": {
+    "devices": {
+      "type": "hasMany",
+      "model": "Device",
+      "foreignKey": "hubId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}
