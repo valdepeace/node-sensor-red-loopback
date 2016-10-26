@@ -80,6 +80,8 @@ module.exports = function (Customer) {
 
     Customer.usersNodeRed = function(ctx,credential,cb) {
             //loggin (info,error)
+        if (typeof credential==='string')
+            credential=JSON.parse(credential);
         if (ctx){
             Customer.app.models.Customer.find({where:{email:credential.email}}, function(err, user) {
                 if(err){
@@ -105,10 +107,10 @@ module.exports = function (Customer) {
                 }else{
                     if(user.length>0){
                         if(credential.password===user[0].__data.password){
-                            cb(user[0])
+                            cb(null,user[0])
                         }else{
                             bcrypt.compare(credential.password,user[0].__data.password,function(err,isMatch){
-                                (isMatch)?cb(user[0]):cb({error:"password failed"});
+                                (isMatch)?cb(null,user[0]):cb({error:"password failed"});
                             })
                         }
                     }else{
