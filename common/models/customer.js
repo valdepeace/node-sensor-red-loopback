@@ -4,121 +4,25 @@ var MongoClient=require('mongodb').MongoClient;
 var  bcrypt = require('bcryptjs');
 var request = require('request');
 module.exports = function (Customer) {
-    Customer.beforeRemote('login',function(context,accesToken,next){
-        var req=context.req;
-        var res=context.res;
-        if(req.accessToken===null){
-            next()
-        }else{
-            req.accessToken.validate(function(err,isValid){
-                if(err)
-                    res.send(err);
-                if(isValid){
-                    //res.send(accesToken)
-                    next()
-                }else{
-                    //error
-                    next()
-                }
-            })
-        }
-    });
 
-    Customer.afterRemote('login',function(context,accesToken,next){
-        if(!accesToken.errors){
-            var expired=new Date(accesToken.__data.created.getTime()+accesToken.__data.ttl);
-            //var expired=new Date(accesToken.__data.created.getTime()+10)
-
-            accesToken.updateAttribute("expired",expired,function(err,obj){
-                if(err){
-                    //error
-                }else{
-                    //res.send(accesToken)
-                    next()
-                }
-            })
-        }else{
-            next()
-        }
-    });
-
-    // Set the username to the users email address by default.
-    Customer.observe('before save', function setDefaultUsername(ctx, next) {
-    if (ctx.instance) {
-      if(ctx.isNewInstance) {
-        ctx.instance.username = ctx.instance.email;
-      }
-      ctx.instance.status = 'created';
-      ctx.instance.created = Date.now();
-    }
-    next();
-  });
-    Customer.current = function(ctx,cb) {
-        var accessToken=ctx.req.accessToken && ctx.req.accessToken.__data
-        if(accessToken){
-            Customer.app.models.Customer.findById(accessToken.customerId.toJSON(), function(err, user) {
-                delete user.password
-                var currentUser={
-                    created:user.__data.created,
-                    email:user.__data.email,
-                    id:user.__data.id.toJSON(),
-                    passwordConfirm:user.__data.passwordConfirm,
-                    roles:user.__data.roles,
-                    status:user.__data.status,
-                    username:user.__data.username
-                }
-                err ? cb(err) : cb(null, currentUser);
-            });
-
-
-        }else{
-            cb('Invalid or missing accessToken');
-        }
-        return
-
-    }
-
-    Customer.usersNodeRed = function(ctx,credential,cb) {
-            //loggin (info,error)
-        if (typeof credential==='string')
-            credential=JSON.parse(credential);
-        if (ctx){
-            Customer.app.models.Customer.find({where:{email:credential.email}}, function(err, user) {
-                if(err){
-                    ctx.status(500).send(err);
-                }else{
-                    if(user.length>0){
-                        if(credential.password===user[0].__data.password){
-                            ctx.res.json(user[0])
-                        }else{
-                            bcrypt.compare(credential.password,user[0].__data.password,function(err,isMatch){
-                                (isMatch)?ctx.res.json(user[0]):ctx.res.status(404).json({error:"password failed"});
-                            })
-                        }
-                    }else{
-                        ctx.res.status(404).json({error:"not found user"})
+    Customer.usersNodeRed = function (ctx, credential, cb) {
+        Customer.app.models.Customer.find({where: {email: credential.email}}, function (err, user) {
+            if (err) {
+                cb(err);
+            } else {
+                if (user.length > 0) {
+                    if (credential.password === user[0].__data.password) {
+                        cb(null, user[0])
+                    } else {
+                        bcrypt.compare(credential.password, user[0].__data.password, function (err, isMatch) {
+                            (isMatch) ? cb(null, user[0]) : cb({error: "password failed"});
+                        })
                     }
+                } else {
+                    cb({error: "not found user"})
                 }
-            });
-        }else{
-            Customer.app.models.Customer.find({where:{email:credential.email}}, function(err, user) {
-                if(err){
-                    cb(err);
-                }else{
-                    if(user.length>0){
-                        if(credential.password===user[0].__data.password){
-                            cb(null,user[0])
-                        }else{
-                            bcrypt.compare(credential.password,user[0].__data.password,function(err,isMatch){
-                                (isMatch)?cb(null,user[0]):cb({error:"password failed"});
-                            })
-                        }
-                    }else{
-                        cb({error:"not found user"})
-                    }
-                }
-            });
-        }
+            }
+        });
     }
 
     Customer.getProjectsCustomers = function(ctx,token,cb) {
@@ -156,26 +60,6 @@ module.exports = function (Customer) {
             })
 
         })
-        /*
-        Customer.getDataSource().connect(function(err,db){
-            db.collection('Sessions').find({accessToken:token.token}).toArray(function(err,cursor){
-
-            })
-        })
-        */
-        /*
-        Customer.getDataSource().connector.collection("Sessions").find({accessToken:token.token}).toArray(function(err,cursor){
-            if(err)
-                console.log(err)
-            Customer.app.models.Customer.find({where:{email:credential.email}}, function(err, user) {
-                err ? ctx.res.json({error:err}) :
-                    (user.length==0)? ctx.res.json({error:"not found user"}):
-                        (credential.password===user[0].passwordConfirm)?ctx.res.json(user[0]):ctx.res.json({error:"password failed"});
-            });
-            return
-        })
-        */
-
     }
 
     Customer.getTokenEditor = function(ctx,user,cb) {
@@ -218,36 +102,8 @@ module.exports = function (Customer) {
 
 
         })
-        /*
-         Customer.getDataSource().connect(function(err,db){
-         db.collection('Sessions').find({accessToken:token.token}).toArray(function(err,cursor){
-
-         })
-         })
-         */
-        /*
-         Customer.getDataSource().connector.collection("Sessions").find({accessToken:token.token}).toArray(function(err,cursor){
-         if(err)
-         console.log(err)
-         Customer.app.models.Customer.find({where:{email:credential.email}}, function(err, user) {
-         err ? ctx.res.json({error:err}) :
-         (user.length==0)? ctx.res.json({error:"not found user"}):
-         (credential.password===user[0].passwordConfirm)?ctx.res.json(user[0]):ctx.res.json({error:"password failed"});
-         });
-         return
-         })
-         */
-
     }
 
-    Customer.remoteMethod('current', {
-        description:'Get current users login in system',
-        accepts:[
-            {arg:'ctx',type:'object',http:{ source: 'context'}},
-        ],
-        returns: {arg: 'user', type: 'object', root: true},
-        http: {path:'/current', verb: 'get'}
-    });
     Customer.remoteMethod('usersNodeRed', {
         description:'Get login users node-red editor',
         accepts:[
