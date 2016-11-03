@@ -30,31 +30,31 @@ module.exports = function (Customer) {
         // find  email in Sessions with token
         MongoClient.connect("mongodb://localhost:27017/nodesensor",function(err,db){
             if(err)
-                ctx.status(500).json(err) //loggin
+                cb(err) //loggin
             db.collection('Sessions').find({accessToken:token.token}).toArray(function(err,cursor){
 
                 if(err)
-                    ctx.status(500).json(err) // loggin
+                    cb(err) // loggin
                 if(cursor.length>0){
                     Customer.app.models.Customer.find({
                         where:{email:cursor[0].user},
                         include:"projects"}, function(err, user) {
                             if(err)
-                                ctx.res.status(500).json(err)
+                                cb(err)
                         // user root or superadmin all projects
                         if (user.length>0 && user[0].__data.roles.length > 0 && user[0].__data.roles[0].__data.name === "root") {
                             Customer.app.models.Project.find({},function (err, projects) {
-                                (err) ? ctx.res.status(500).json(err) :
-                                    ctx.res.json({projects:projects})
+                                (err) ? cb(err) :
+                                    cb(null,{projects:projects})
                             })
                         } else {
                             // customer also projects
                             (user.length == 0) ? ctx.res.status(404).json({error: "not found user"}) :
-                                ctx.res.json({projects: user[0].__data.projects});
+                                cb(null,{projects: user[0].__data.projects});
                         }
                     });
                 }else{
-                    ctx.res.status(404).json({error:"not session found"})
+                    cb({error:"not session found"})
                 }
                 db.close();
             })
