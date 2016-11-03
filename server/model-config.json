@@ -45,14 +45,6 @@
         "dataSource": "nodesensor",
         "public": true
     },
-    "DeviceType": {
-        "dataSource": "nodesensor",
-        "public": true
-    },
-    "DeviceGroup": {
-        "dataSource": "nodesensor",
-        "public": true
-    },
     "Message": {
         "dataSource": "nodesensor",
         "public": true
