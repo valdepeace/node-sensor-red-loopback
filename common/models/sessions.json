@@ -1,0 +1,45 @@
+{
+  "name": "Session",
+  "plural": "Sessions",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "user": {
+      "type": "string",
+      "comments": "email user"
+    },
+    "client": {
+      "type": "string",
+      "comments": "node-red-editor o node-red-admin"
+    },
+    "scope": {
+      "type": "string",
+      "comments": "type read, write, *"
+    },
+    "accessToken": {
+      "type": "string",
+      "comments": "token"
+    },
+    "expires": {
+      "type": "number",
+      "comments": "number miliseconds"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "customers":{
+      "type": "hasAndBelongsToMany",
+      "model": "Customer"
+    },
+    "hubs": {
+      "type": "hasMany",
+      "model": "Hub",
+      "foreignKey": "projectId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}
