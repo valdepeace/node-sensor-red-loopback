@@ -4,8 +4,8 @@
     "connector": "memory"
   },
   "nodesensor": {
-    "host": "localhost",
-    "port": 27017,
+    "host": "aws-us-east-1-portal.21.dblayer.com",
+    "port": 10708,
     "database": "nodesensor",
     "name": "nodesensor",
     "connector": "mongodb",
