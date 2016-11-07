@@ -48,6 +48,10 @@
     "Message": {
         "dataSource": "nodesensor",
         "public": true
+    },
+    "Session":{
+        "dataSource": "nodesensor",
+        "public": true
     }
 }
 

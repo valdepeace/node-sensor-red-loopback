@@ -28,19 +28,18 @@ module.exports = function (Customer) {
     Customer.getProjectsCustomers = function(ctx,token,cb) {
         //loggin (info,error)
         // find  email in Sessions with token
-        MongoClient.connect("mongodb://localhost:27017/nodesensor",function(err,db){
-            if(err)
-                cb(err) //loggin
-            db.collection('Sessions').find({accessToken:token.token}).toArray(function(err,cursor){
-
-                if(err)
-                    cb(err) // loggin
-                if(cursor.length>0){
+        //loggin (info,error)
+        // find  email in Sessions with token
+        Customer.app.models.Sessions.find({where:{accessToken:token.token}},function(err,insSession){
+            if(err){
+                cb(err)
+            }else{
+                if(insSession.length>0){
                     Customer.app.models.Customer.find({
-                        where:{email:cursor[0].user},
+                        where:{email:insSession[0].user},
                         include:"projects"}, function(err, user) {
-                            if(err)
-                                cb(err)
+                        if(err)
+                            cb(err)
                         // user root or superadmin all projects
                         if (user.length>0 && user[0].__data.roles.length > 0 && user[0].__data.roles[0].__data.name === "root") {
                             Customer.app.models.Project.find({},function (err, projects) {
@@ -54,11 +53,9 @@ module.exports = function (Customer) {
                         }
                     });
                 }else{
-                    cb({error:"not session found"})
+                    cb({error:"no exists session"})
                 }
-                db.close();
-            })
-
+            }
         })
     }
 
