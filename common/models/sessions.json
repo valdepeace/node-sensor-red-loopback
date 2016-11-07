@@ -1,6 +1,6 @@
 {
-  "name": "Session",
-  "plural": "Sessions",
+  "name": "Sessions",
+  "plural": "Sessionss",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {

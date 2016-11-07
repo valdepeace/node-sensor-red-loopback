@@ -28,9 +28,7 @@ module.exports = function (Customer) {
     Customer.getProjectsCustomers = function(ctx,token,cb) {
         //loggin (info,error)
         // find  email in Sessions with token
-        //loggin (info,error)
-        // find  email in Sessions with token
-        Customer.app.models.Sessions.find({where:{accessToken:token.token}},function(err,insSession){
+        Customer.app.models.Session.find({where:{accessToken:token.token}},function(err,insSession){
             if(err){
                 cb(err)
             }else{

@@ -49,7 +49,7 @@
         "dataSource": "nodesensor",
         "public": true
     },
-    "Session":{
+    "Sessions":{
         "dataSource": "nodesensor",
         "public": true
     }
