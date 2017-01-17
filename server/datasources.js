@@ -1,11 +1,16 @@
+
+
+
+module.exports=require('./datasource.stagin.js');
+/*
 {
   "db": {
     "name": "db",
     "connector": "memory"
   },
   "nodesensor": {
-    "host": "aws-us-east-1-portal.21.dblayer.com",
-    "port": 10708,
+    "host": "localhost",
+    "port": 27017,
     "database": "rockrail",
     "name": "nodesensor",
     "connector": "mongodb",
@@ -13,3 +18,4 @@
     "password": "rockrail"
   }
 }
+*/
